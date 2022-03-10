@@ -84,6 +84,18 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           file: ./K8SFunctions/Dockerfile 
 
+      - name: Update values.yaml
+        uses: fjogeleit/yaml-update-action@main
+        if: github.event_name != 'pull_request'
+        with:
+          valueFile: 'deployments/deployment-dev.yml'
+          propertyPath: 'spec.template.spec.containers[0].image'
+          value: ghcr.io/${{ github.repository_owner }}/k8sfunctions:v${{ steps.version-git.outputs.semVer }}
+          commitChange: true
+          updateFile: true
+          message: 'Update Image Version to ${{  steps.version-git.outputs.semVer }}'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create Release
         id: create_release
         if: github.event_name != 'pull_request'
