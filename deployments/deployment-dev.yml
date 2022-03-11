@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: k8sfunctions-container
-          image: ghcr.io/arkapravasinha/k8sfunctions:v0.1.1
+          image: ghcr.io/arkapravasinha/k8sfunctions:v0.1.2
           resources:
             limits:
               memory: 128Mi
